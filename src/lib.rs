@@ -14,8 +14,9 @@ mod tests {
 
     #[tokio::test]
     async fn can_get_model_list() {
-        let open_ai = core::open_ai::OpenAi::new("myKey".to_string(), "model".to_string());
+        let open_ai = core::open_ai::OpenAi::new("key".to_string(), "model".to_string());
         let model_list = open_ai.get_model_list().await;
         assert!(model_list.is_ok());
+        assert!(model_list.unwrap().data.len() > 0);
     }
 }

@@ -15,7 +15,7 @@ pub mod open_ai {
     #[derive(Deserialize, Debug)]
     pub struct ModelListResponse {
         object: String,
-        data: Vec<Model>,
+        pub data: Vec<Model>,
     }
 
     impl ModelListResponse {
@@ -73,21 +73,3 @@ pub mod open_ai {
         }
     }
 }
-
-/*
-
-#[tokio::main]
-async fn main() {
-    let api_key = "your_openai_api_key_here".to_string();
-    let open_ai = open_ai::OpenAi::new(api_key, "".to_string());
-
-    match open_ai.get_model_list().await {
-        Ok(model_list_response) => {
-            println!("Retrieved models: {:?}", model_list_response);
-        }
-        Err(e) => {
-            eprintln!("Error: {}", e);
-        }
-    }
-}
- */
