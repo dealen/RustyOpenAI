@@ -16,3 +16,5 @@ Implement Chat functionality which will include concepts from https://platform.o
 
 2. Error handling
 3. ???
+
+I will be using https://actix.rs/docs/ for http communication.
