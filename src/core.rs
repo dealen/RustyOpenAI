@@ -1,6 +1,6 @@
 
-mod open_ai {
-    struct OpenAi {
+pub mod open_ai {
+    pub struct OpenAi {
         pub _open_ai_key: String,
         pub _model: String,
     }
@@ -13,7 +13,7 @@ mod open_ai {
             }
         }
 
-        fn get_bearer_key(&self) -> String {
+        pub fn get_bearer_key(&self) -> String {
             format!("Bearer {}", self._open_ai_key)
         }
     }
