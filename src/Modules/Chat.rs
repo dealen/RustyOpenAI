@@ -1,8 +1,6 @@
 use actix_web::{error, web, App, HttpResponse, HttpServer, Responder, Result, FromRequest};
 
-// pub use chat::Chat;
-
-mod chat {
+pub mod chat {
     use actix_web::{dev, error, Error, FromRequest, HttpRequest, HttpResponse, web};
     use actix_web::http::header::{AUTHORIZATION, CONTENT_TYPE};
     use reqwest::header::HeaderMap;
@@ -25,6 +23,10 @@ mod chat {
             format!("Bearer {}", self._open_ai_key)
         }
 
+        fn get_model(&self) -> String {
+            self._model.clone()
+        }
+
         pub async fn ask_ai(&self, req: web::Path<String>) -> actix_web::Result<HttpResponse> {
             let message = req.into_inner();
             let bearer = self.get_bearer_key();
@@ -35,7 +37,7 @@ mod chat {
             headers.insert(AUTHORIZATION, bearer.parse().unwrap());
 
             let data = json!({
-                "model": "gpt-3.5-turbo",
+                "model": self.get_model(),//"gpt-3.5-turbo",
                 "messages": [
                     {
                         "role": "system",
@@ -56,7 +58,7 @@ mod chat {
                 .await
                 .map_err(error::ErrorBadRequest)?;
 
-            let response_text = res.text().await.map_err(error::ErrorBadRequest)?; // Here too
+            let response_text = res.text().await.map_err(error::ErrorBadRequest)?;
 
             Ok(HttpResponse::Ok().body(response_text))
         }
