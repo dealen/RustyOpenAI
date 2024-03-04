@@ -2,7 +2,7 @@
 
 Project that will allow to use easily OpenAI API from Rust projects.
 
-## Primary Goals;
+## Primary Goals
 
 From OpenAI API 
 Implement Chat functionality which will include concepts from https://platform.openai.com/docs/api-reference/chat
