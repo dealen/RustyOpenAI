@@ -18,3 +18,5 @@ Implement Chat functionality which will include concepts from https://platform.o
 3. ???
 
 I will be using https://actix.rs/docs/ for http communication.
+
+I am still not sure how to approach archiotecture here, but we will see.
