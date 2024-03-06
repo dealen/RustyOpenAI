@@ -1,4 +1,4 @@
-mod moderation {
+pub mod moderation {
     struct Moderation {
 
     }

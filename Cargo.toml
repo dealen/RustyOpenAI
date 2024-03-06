@@ -1,13 +1,22 @@
-[package]
-name = "RustyOpenAI_LIb"
-version = "0.1.0"
+[workspace]
+members = [ "rusty_open_ai_*"]
+default-members = ["rusty_open_ai_*"]
+resolver = "2"
+
+[workspace.package]
+version = "0.0.1"
+rust-version = "1.75"
 edition = "2021"
+authors = [ "Jakub marcickiewicz <marcickiewiczjakub@gmail.com>" ]
+homepage = "https://github.com/dealen"
+repository = "https://github.com/dealen/RustyOpenAI"
+keywords = ["autiomation", "library", "rust"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[workspace.dependencies]
 actix-web = "4"
 reqwest = { version = "0.11", features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
-tokio = { version = "1", features = ["full"] }
-serde_json = "1.0.114"
+serde_json = "1.0"
+tokio = { version = "1.36", features = ["full"] }

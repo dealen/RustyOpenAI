@@ -1,0 +1,12 @@
+[package]
+name = "rusty_open_ai_client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "rusty_open_ai_client"
+path = "src/main.rs"
+
+[dependencies]
+rusty_open_ai_lib = { path = "../rusty_open_ai_lib" }
