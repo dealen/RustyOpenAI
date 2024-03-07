@@ -1,3 +1,5 @@
+pub mod chat;
+
 pub mod open_ai {
     use serde::Deserialize;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};

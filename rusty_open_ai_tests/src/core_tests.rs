@@ -2,8 +2,9 @@
 use tokio;
 #[cfg(test)]
 mod tests {
+    use std::any::TypeId;
     use rusty_open_ai_lib::open_ai::OpenAi;
-    use rusty_open_ai_lib::chat::Chat;
+    use rusty_open_ai_lib::chat::chat::Chat;
 
     use super::*;
 
@@ -26,6 +27,6 @@ mod tests {
     #[tokio::test]
     async fn can_ask_ai() {
         let chat = Chat::new("key".to_string(), "model".to_string());
-        assert!(chat.is_ok())
+        assert_eq!(chat.get_model(), "model");
     }
 }

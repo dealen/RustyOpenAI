@@ -21,7 +21,7 @@ pub mod chat {
             format!("Bearer {}", self._open_ai_key)
         }
 
-        fn get_model(&self) -> String {
+        pub fn get_model(&self) -> String {
             self._model.clone()
         }
 
