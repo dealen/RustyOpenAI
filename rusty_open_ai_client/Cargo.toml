@@ -10,3 +10,4 @@ path = "src/main.rs"
 
 [dependencies]
 rusty_open_ai_lib = { path = "../rusty_open_ai_lib" }
+tokio = { version = "1.0.0", features = ["rt", "rt-multi-thread", "macros"] }
