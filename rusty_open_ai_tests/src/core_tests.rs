@@ -2,7 +2,6 @@
 use tokio;
 #[cfg(test)]
 mod tests {
-    use std::any::TypeId;
     use rusty_open_ai_lib::open_ai::OpenAi;
     use rusty_open_ai_lib::chat::chat::Chat;
 
