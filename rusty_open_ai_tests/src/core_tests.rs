@@ -1,5 +1,3 @@
-
-use tokio;
 #[cfg(test)]
 mod tests {
     use rusty_open_ai_lib::open_ai::OpenAi;
