@@ -1,9 +1,11 @@
 pub mod chat;
 
 pub mod open_ai {
+    use actix_web::Error;
     use serde::Deserialize;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::Result as JsonResult;
+    use crate::chat;
 
     #[derive(Deserialize, Debug)]
     pub struct Model {
@@ -70,6 +72,27 @@ pub mod open_ai {
                 Ok(model_list_response)
             } else {
                 panic!("Request to OpenAI failed with status: {}", response.status());
+            }
+        }
+
+        pub fn change_model(&mut self, model: String) {
+            self._model = model;
+        }
+
+        pub async fn ask_ai(&self, system_message: String, message: String, previous_messages: Vec<String>) -> Result<String, Error> {
+            let mut chat = chat::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
+
+            for msg in previous_messages {
+                chat.add_user_message(msg.to_string());    
+            }
+
+            chat.add_system_message(system_message);
+
+            let response = chat.perform_conversation(message).await;
+            if response.is_ok() {
+                Ok(response.unwrap())
+            } else {
+                Err(response.err().unwrap())
             }
         }
     }
