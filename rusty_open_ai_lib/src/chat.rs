@@ -1,5 +1,5 @@
 pub mod chat {
-    use actix_web::{dev, error, Error, FromRequest, HttpRequest, HttpResponse, web};
+    use actix_web::{error, Error, HttpResponse, web};
     use actix_web::http::header::{AUTHORIZATION, CONTENT_TYPE};
     use reqwest::header::HeaderMap;
     use serde_json::json;

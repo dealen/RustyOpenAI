@@ -1,9 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use rusty_open_ai_lib::open_ai::{self, OpenAi};
+    use rusty_open_ai_lib::open_ai::OpenAi;
     use rusty_open_ai_lib::chat::chat::Chat;
-
-    use super::*;
 
     #[test]
     fn can_create_open_ai() {

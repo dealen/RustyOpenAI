@@ -17,16 +17,20 @@ pub mod open_ai {
 
     #[derive(Deserialize, Debug)]
     pub struct ModelListResponse {
-        object: String,
+        value: String,
         pub data: Vec<Model>,
     }
 
     impl ModelListResponse {
         pub fn new() -> ModelListResponse {
             ModelListResponse {
-                object: "".to_string(),
+                value: "".to_string(),
                 data: vec![],
             }
+        }
+
+        pub fn get_value(&self) -> String {
+            self.value.clone()
         }
     }
 
