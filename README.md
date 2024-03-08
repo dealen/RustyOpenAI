@@ -19,4 +19,4 @@ Implement Chat functionality which will include concepts from https://platform.o
 
 I will be using https://actix.rs/docs/ for http communication.
 
-I am still not sure how to approach archiotecture here, but we will see.
+I am also planning to add Google Gemini API since is it now available in Poland.
