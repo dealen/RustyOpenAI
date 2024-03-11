@@ -17,19 +17,19 @@ pub mod open_ai {
 
     #[derive(Deserialize, Debug)]
     pub struct ModelListResponse {
-        value: String,
+        value: Option<String>,
         pub data: Vec<Model>,
     }
 
     impl ModelListResponse {
         pub fn new() -> ModelListResponse {
             ModelListResponse {
-                value: "".to_string(),
+                value: Option::from("".to_string()),
                 data: vec![],
             }
         }
 
-        pub fn get_value(&self) -> String {
+        pub fn get_value(&self) -> Option<String> {
             self.value.clone()
         }
     }
@@ -86,13 +86,20 @@ pub mod open_ai {
         pub async fn ask_ai(&self, system_message: String, message: String, previous_messages: Vec<String>) -> Result<String, Error> {
             let mut chat = chat::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
 
+            let mut previous_messages_new: Vec<String> = vec![];
+
             for msg in previous_messages {
-                chat.add_user_message(msg.to_string());    
+                chat.add_user_message(msg.to_string());
+                previous_messages_new.push(msg.to_string());
             }
 
-            chat.add_system_message(system_message);
+            chat.add_system_message(system_message.clone());
+            previous_messages_new.push(system_message.clone());
 
-            let response = chat.perform_conversation(message).await;
+            let user_message = message.to_string();
+            let response = chat.perform_conversation(message).await;   
+            previous_messages_new.push(user_message.to_string());
+
             if response.is_ok() {
                 Ok(response.unwrap())
             } else {
