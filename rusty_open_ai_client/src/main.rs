@@ -11,10 +11,11 @@ async fn main() {
 }
 
 async fn ask_ai_some_questions(open_ai: &OpenAi, previous_messages: Vec<String>) {
-    match open_ai.ask_ai(
-    "You are helpful and answer briefly.".to_string(),
-     "What if capital of Poland? Give me top 5 most interesting things about it".to_string(),
-     previous_messages).await {
+
+    let system_message = "You are helpful and answer briefly.".to_string();
+    let message = "What if capital of Poland? Give me top 5 most interesting things about it".to_string();
+    
+    match open_ai.ask_ai(system_message, message, previous_messages).await {
         Ok(response) => {
             let content = response.split("content\": \"").collect::<Vec<&str>>()[1];
             println!("Response: {:?}", content);
