@@ -4,7 +4,7 @@ Project that will allow to use easily OpenAI API from Rust projects.
 
 ## Primary Goals
 
-From OpenAI API 
+From OpenAI API:
 Implement Chat functionality which will include concepts from https://platform.openai.com/docs/api-reference/chat
 - Moderation
 - Sending and reciving messages
@@ -15,8 +15,9 @@ Implement Chat functionality which will include concepts from https://platform.o
 - Audio speech-to-text
 
 2. Error handling
-3. ???
+3. Loggin
+4. Create package from it.
 
 I will be using https://actix.rs/docs/ for http communication.
 
-I am still not sure how to approach archiotecture here, but we will see.
+I am also planning to add Google Gemini API since is it now available in Poland.
