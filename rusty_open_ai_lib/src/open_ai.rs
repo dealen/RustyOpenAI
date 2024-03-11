@@ -1,11 +1,12 @@
 pub mod chat;
+mod moderation;
 
 pub mod open_ai {
     use actix_web::Error;
     use serde::Deserialize;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::Result as JsonResult;
-    use crate::chat;
+    use crate::{chat, moderation};
 
     #[derive(Deserialize, Debug)]
     pub struct Model {
@@ -37,14 +38,16 @@ pub mod open_ai {
     pub struct OpenAi {
         pub _open_ai_key: String,
         pub _model: String,
+        _ask_moderation: bool,
     }
 
     impl OpenAi {
 
-        pub fn new(open_ai_key: String, model: String) -> OpenAi {
+        pub fn new(open_ai_key: String, model: String, ask_moderation: bool) -> OpenAi {
             OpenAi {
                 _open_ai_key: open_ai_key,
                 _model: model,
+                _ask_moderation: ask_moderation,
             }
         }
 
@@ -85,6 +88,14 @@ pub mod open_ai {
 
         pub async fn ask_ai(&self, system_message: String, message: String, previous_messages: Vec<String>) -> Result<String, Error> {
             let mut chat = chat::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
+            let mut moderation = moderation::moderation::Moderation::new();
+
+            let is_message_flagged = moderation.ask_moderation(self._open_ai_key.to_string(), message.clone()).await;
+
+            if is_message_flagged {
+                // TODO
+                //return Err(Error::from("Message is flagged"));
+            }
 
             let mut previous_messages_new: Vec<String> = vec![];
 

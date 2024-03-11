@@ -2,7 +2,7 @@ use rusty_open_ai_lib::open_ai::OpenAi;
 
 #[tokio::main]
 async fn main() {
-    let mut open_ai = OpenAi::new("key".to_string(), "gpt-3.5-turbo-0125".to_string());
+    let mut open_ai = OpenAi::new("key".to_string(), "gpt-3.5-turbo-0125".to_string(), true);
 
     show_available_models(&open_ai).await;
 
