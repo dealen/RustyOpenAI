@@ -1,7 +1,6 @@
 pub mod moderation {
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::json;
-    use crate::open_ai::OpenAi;
 
     pub struct Moderation { }
 
