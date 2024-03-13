@@ -22,14 +22,17 @@ pub mod moderation {
                 "input": input,
             });
 
-            let res = client.post("https://api.openai.com/v1/moderations")
+            let res = client
+                .post("https://api.openai.com/v1/moderations")
                 .headers(headers)
                 .json(&data)
                 .send()
                 .await
-                .unwrap();
+                .expect("Could not get moderation reposnse");
 
             let body = res.text().await.unwrap();
+
+            println!("Moderation response: {:?}", body);
 
             let flagged = body
                 .split("flagged\": ")

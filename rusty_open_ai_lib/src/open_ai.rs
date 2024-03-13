@@ -88,13 +88,12 @@ pub mod open_ai {
 
         pub async fn ask_ai(&self, system_message: String, message: String, previous_messages: Vec<String>) -> Result<String, Error> {
             let mut chat = chat::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
-            let mut moderation = moderation::moderation::Moderation::new();
+            let moderation = moderation::moderation::Moderation::new();
 
-            let is_message_flagged = moderation.ask_moderation(self._open_ai_key.to_string(), message.clone()).await;
+            let is_message_flagged = moderation.ask_moderation(self.get_bearer_key(), message.clone()).await;
 
             if is_message_flagged {
-                // TODO
-                //return Err(Error::from("Message is flagged"));
+                return Err(actix_web::error::ErrorBadRequest("Message is flagged"));
             }
 
             let mut previous_messages_new: Vec<String> = vec![];
