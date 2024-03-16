@@ -1,4 +1,4 @@
-pub mod chat;
+pub mod completions;
 mod moderation;
 
 pub mod open_ai {
@@ -6,7 +6,7 @@ pub mod open_ai {
     use serde::Deserialize;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::Result as JsonResult;
-    use crate::{chat, moderation};
+    use crate::{completions, moderation};
 
     #[derive(Deserialize, Debug)]
     pub struct Model {
@@ -87,7 +87,7 @@ pub mod open_ai {
         }
 
         pub async fn ask_ai(&self, system_message: String, message: String, previous_messages: Vec<String>) -> Result<String, Error> {
-            let mut chat = chat::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
+            let mut chat = completions::chat::Chat::new(self._open_ai_key.to_string(), self._model.to_string());
             let moderation = moderation::moderation::Moderation::new();
 
             let is_message_flagged = moderation.ask_moderation(self.get_bearer_key(), message.clone()).await;

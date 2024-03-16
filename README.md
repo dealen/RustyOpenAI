@@ -12,6 +12,7 @@ Project that will allow to use easily OpenAI API from Rust projects.
 - [Test to speech](https://platform.openai.com/docs/guides/text-to-speech)
 - [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
 - [Function calling](https://platform.openai.com/docs/guides/function-calling)
+- [Assistants](https://platform.openai.com/docs/assistants/overview?lang=curl)
 
 ##### Project itself
 - Error handling
