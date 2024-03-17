@@ -15,6 +15,7 @@ async fn main() {
     println!("Current model: {:?}", current_model);
 
     let result2 = ask_ai_some_questions(&open_ai, &mut result).await;
+    println!("Result: {:?}", result2);
 }
 
 async fn ask_ai_some_questions(open_ai: &OpenAi, previous_messages: &mut Vec<String>) -> Vec<String> {
@@ -22,11 +23,9 @@ async fn ask_ai_some_questions(open_ai: &OpenAi, previous_messages: &mut Vec<Str
     let system_message = "You are helpful and answer briefly.".to_string();
     let message = "What if capital of Poland? Give me top 5 most interesting things about it".to_string();
 
-    let mut content: String = "".to_string();
-    
     match open_ai.ask_ai(system_message, message, previous_messages.to_vec()).await {
         Ok(response) => {
-            content = response.split("content\": \"").collect::<Vec<&str>>()[1].to_string();
+            let content = response.split("content\": \"").collect::<Vec<&str>>()[1].to_string();
             println!("Response: {:?}", content);
             previous_messages.push(content);
         }
