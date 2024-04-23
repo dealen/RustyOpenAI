@@ -15,7 +15,7 @@ pub mod speech {
 
         fn get_bearer_key(&self) -> String {
             format!("Bearer {}", self._open_ai_key)
-
+        }
             
             /*
             This is a sample call using curl from documentation:
