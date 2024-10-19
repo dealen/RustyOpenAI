@@ -1,5 +1,5 @@
 
-use open_ai_lib::open_ai::open_ai::OpenAi;
+use open_ai_lib::open_ai::OpenAi;
 
 #[tokio::main]
 async fn main() {
@@ -12,7 +12,7 @@ async fn main() {
 
     open_ai.change_model("gpt-4-0125-preview".to_string());
 
-    let current_model = open_ai._model.to_string();
+    let current_model = open_ai.model.to_string();
     println!("Current model: {:?}", current_model);
 
     let result2 = ask_ai_some_questions(&open_ai, &mut result).await;

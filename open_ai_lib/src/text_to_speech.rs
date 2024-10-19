@@ -9,15 +9,16 @@ pub mod speech {
     use serde_json::json;
 
     pub struct Speech {
-        pub _open_ai_key: String,
-        pub _model: String,
+        pub open_ai_key: String,
+        pub model: String,
     }
 
     impl Speech {
+        #[must_use]
         pub fn new(open_ai_key: String) -> Speech {
             Speech {
-                _open_ai_key: open_ai_key,
-                _model: "tts-1".to_owned(),
+                open_ai_key,
+                model: "tts-1".to_owned(),
             }
         }
 
@@ -27,7 +28,7 @@ pub mod speech {
             full_path.to_str().unwrap().to_string()
         }
 
-        fn save_file_to_disk(&self, file_content: String) -> String {
+        fn save_file_to_disk(file_content: &str) -> String {
             let path = "speech.mp3";
             let mut file = File::create(path).unwrap();
             file.write_all(file_content.as_bytes()).unwrap();
@@ -37,22 +38,13 @@ pub mod speech {
         }
 
         fn get_bearer_key(&self) -> String {
-            format!("Bearer {}", self._open_ai_key)
+            format!("Bearer {}", self.open_ai_key)
         }
 
-        /*
-            This is a sample call using curl from documentation:
-            curl https://api.openai.com/v1/audio/speech \
-        -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -H "Content-Type: application/json" \
-        -d '{
-            "model": "tts-1",
-            "input": "Today is a wonderful day to build something people love!",
-            "voice": "alloy"
-        }' \
-        --output speech.mp3
-            */
-
+        /// # Panics
+        /// Panics if the no api key is provided or there is no connection
+        /// # Errors
+        /// Returns an error if the request fails
         pub async fn get_audio(&self) {
             let client = reqwest::Client::new();
             let mut headers = HeaderMap::new();
@@ -63,7 +55,7 @@ pub mod speech {
             );
 
             let data = json!({
-                "model": self._model,
+                "model": self.model,
                 "input": "Today is a wonderful day to build something people love!",
                 "voice": "alloy"
             });
@@ -78,9 +70,9 @@ pub mod speech {
 
             let body = res.text().await.unwrap();
 
-            println!("Audio response: {:?}", body);
+            println!("Audio response: {body:?}");
 
-            self.save_file_to_disk(body);
+            Self::save_file_to_disk(&body);
         }
         
     }
