@@ -1,7 +1,6 @@
 pub mod chat {
     use actix_web::{error, Error, HttpResponse, web};
-    use actix_web::http::header::{AUTHORIZATION, CONTENT_TYPE};
-    use reqwest::header::HeaderMap;
+    use reqwest::header::{HeaderMap, AUTHORIZATION, CONTENT_TYPE};
     use serde_json::json;
 
     pub struct Chat {

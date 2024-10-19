@@ -1,7 +1,8 @@
+#![warn(clippy::all, clippy::pedantic)]
+
 #[cfg(test)]
 mod tests {
-    use rusty_open_ai_lib::open_ai::OpenAi;
-    use rusty_open_ai_lib::completions::chat::Chat;
+    use open_ai_lib::{completions::chat::Chat, open_ai::open_ai::OpenAi};
 
     #[test]
     fn can_create_open_ai() {

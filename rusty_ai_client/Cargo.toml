@@ -1,0 +1,11 @@
+[package]
+name = "rusty_ai_client"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "rusty_ai_client"
+
+[dependencies]
+open_ai_lib = { path = "../open_ai_lib" }
+tokio = { version = "1.0.0", features = ["rt", "rt-multi-thread", "macros"] }

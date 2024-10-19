@@ -1,6 +1,3 @@
-pub mod completions;
-mod moderation;
-
 pub mod open_ai {
     use actix_web::Error;
     use serde::Deserialize;

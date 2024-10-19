@@ -1,6 +1,5 @@
 [workspace]
-members = [ "rusty_open_ai_*"]
-default-members = ["rusty_open_ai_*"]
+members = ["open_ai_lib", "rusty_ai_client", "rusty_ai_tests"]
 resolver = "2"
 
 [workspace.package]

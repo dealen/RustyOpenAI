@@ -1,0 +1,11 @@
+[package]
+name = "rusty_ai_tests"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/tests.rs"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+open_ai_lib = { path = "../open_ai_lib" }

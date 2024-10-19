@@ -1,4 +1,12 @@
 pub mod speech {
+    use std::{
+        env,
+        fs::File,
+        io::Write,
+    };
+
+    use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
+    use serde_json::json;
 
     pub struct Speech {
         pub _open_ai_key: String,
@@ -9,15 +17,30 @@ pub mod speech {
         pub fn new(open_ai_key: String) -> Speech {
             Speech {
                 _open_ai_key: open_ai_key,
-                _model: "tts-1",
+                _model: "tts-1".to_owned(),
             }
+        }
+
+        fn get_file_path(path: &str) -> String {
+            let mut full_path = env::current_dir().unwrap();
+            full_path.push(path);
+            full_path.to_str().unwrap().to_string()
+        }
+
+        fn save_file_to_disk(&self, file_content: String) -> String {
+            let path = "speech.mp3";
+            let mut file = File::create(path).unwrap();
+            file.write_all(file_content.as_bytes()).unwrap();
+
+            // return path on disk
+            Self::get_file_path(path)
         }
 
         fn get_bearer_key(&self) -> String {
             format!("Bearer {}", self._open_ai_key)
         }
-            
-            /*
+
+        /*
             This is a sample call using curl from documentation:
             curl https://api.openai.com/v1/audio/speech \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -29,7 +52,8 @@ pub mod speech {
         }' \
         --output speech.mp3
             */
-        pub fn get_audio() -> String {
+
+        pub async fn get_audio(&self) {
             let client = reqwest::Client::new();
             let mut headers = HeaderMap::new();
 
@@ -56,15 +80,9 @@ pub mod speech {
 
             println!("Audio response: {:?}", body);
 
-            save_file_to_disk(body);
+            self.save_file_to_disk(body);
         }
-
-        fn save_file_to_disk(&self, file: String) -> String {
-            let mut file = File::create("speech.mp3").unwrap();
-            file.write_all(file.as_bytes()).unwrap();
-
-            // return path on disk
-            file.path()
-        }
+        
     }
+
 }

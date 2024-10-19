@@ -1,4 +1,5 @@
-use rusty_open_ai_lib::open_ai::OpenAi;
+
+use open_ai_lib::open_ai::open_ai::OpenAi;
 
 #[tokio::main]
 async fn main() {
