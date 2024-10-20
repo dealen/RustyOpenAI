@@ -1,10 +1,7 @@
 pub mod speech {
-    use std::{
-        env,
-        fs::File,
-        io::Write,
-    };
+    use std::{env, fs::File, io::Write};
 
+    use chrono::Utc;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::json;
 
@@ -18,7 +15,7 @@ pub mod speech {
         pub fn new(open_ai_key: String) -> Speech {
             Speech {
                 open_ai_key,
-                model: "tts-1".to_owned(),
+                model: "tts-1-hd".to_owned(),
             }
         }
 
@@ -26,15 +23,6 @@ pub mod speech {
             let mut full_path = env::current_dir().unwrap();
             full_path.push(path);
             full_path.to_str().unwrap().to_string()
-        }
-
-        fn save_file_to_disk(file_content: &str) -> String {
-            let path = "speech.mp3";
-            let mut file = File::create(path).unwrap();
-            file.write_all(file_content.as_bytes()).unwrap();
-
-            // return path on disk
-            Self::get_file_path(path)
         }
 
         fn get_bearer_key(&self) -> String {
@@ -45,7 +33,7 @@ pub mod speech {
         /// Panics if the no api key is provided or there is no connection
         /// # Errors
         /// Returns an error if the request fails
-        pub async fn get_audio(&self) {
+        pub async fn get_audio(&self, input: &str, voice: &str) {
             let client = reqwest::Client::new();
             let mut headers = HeaderMap::new();
 
@@ -56,8 +44,8 @@ pub mod speech {
 
             let data = json!({
                 "model": self.model,
-                "input": "Today is a wonderful day to build something people love!",
-                "voice": "alloy"
+                "input": input,
+                "voice": voice.to_lowercase()
             });
 
             let res = client
@@ -68,13 +56,21 @@ pub mod speech {
                 .await
                 .expect("Could not get audio response");
 
-            let body = res.text().await.unwrap();
+            let body = res.bytes().await.unwrap();
 
-            println!("Audio response: {body:?}");
+            println!("Audio response received");
 
             Self::save_file_to_disk(&body);
         }
-        
-    }
 
+        fn save_file_to_disk(file_content: &[u8]) -> String {
+            let path = format!("speech-{}.mp3", Utc::now().timestamp());
+            let path_clone = path.clone();
+            let mut file = File::create(path).unwrap();
+            file.write_all(file_content).unwrap();
+
+            // return path on disk
+            Self::get_file_path(&path_clone)
+        }
+    }
 }

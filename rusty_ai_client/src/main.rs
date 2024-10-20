@@ -1,22 +1,33 @@
 
-use open_ai_lib::open_ai::OpenAi;
+use open_ai_lib::{images::Images, open_ai::OpenAi, text_to_speech::speech::Speech};
 
 #[tokio::main]
 async fn main() {
-    let mut open_ai = OpenAi::new("".to_string(), "gpt-4o-mini".to_string(), true);
+    
+    let api_key = "".to_string();
+    
+    let mut open_ai = OpenAi::new(api_key.clone(), "gpt-4o-mini".to_string(), true);
 
     show_available_models(&open_ai).await;
 
     let previous_messages: &mut Vec<String> = &mut Vec::new();
     let mut result = ask_ai_some_questions(&open_ai, previous_messages).await;
 
-    open_ai.change_model("gpt-4-0125-preview".to_string());
+    open_ai.change_model("gpt-4o".to_string());
 
     let current_model = open_ai.model.to_string();
     println!("Current model: {:?}", current_model);
 
     let result2 = ask_ai_some_questions(&open_ai, &mut result).await;
     println!("Result: {:?}", result2);
+
+    let text_to_speech = Speech::new(api_key.clone());
+    let path = text_to_speech.get_audio("Hello, how are you?", "Onyx").await;
+    println!("Path: to audio file: {path:?}");
+
+    let images = Images::new(api_key.clone());
+    let image_path = images.get_image("Small dinoraur wearing sungalasses.").await;
+    println!("Path to image file: {image_path:?}");
 }
 
 async fn ask_ai_some_questions(open_ai: &OpenAi, previous_messages: &mut Vec<String>) -> Vec<String> {
