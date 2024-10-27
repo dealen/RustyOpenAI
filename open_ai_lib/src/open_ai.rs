@@ -104,10 +104,10 @@ impl OpenAi {
     }
 
     /// # Panics
-    /// 
+    ///
     /// Will panic if there is no connection to `OpenAI` or could not get result
     /// # Errors
-    /// 
+    ///
     /// Will return an error if the request to `OpenAI` fails
     pub async fn ask_ai(
         &self,

@@ -11,6 +11,7 @@ impl Moderation {
     }
 
     /// # Panics
+    /// 
     /// Panics if the no api key is provided or there is no connection
     pub async fn ask_moderation(&self, key: String, input: String) -> bool {
         let client = reqwest::Client::new();

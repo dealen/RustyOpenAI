@@ -31,8 +31,10 @@ pub mod chat {
         }
 
         /// # Panics
-        /// Panics if the no api key is provided or there is no connection
+        ///
+        ///  if the no api key is provided or there is no connection
         /// # Errors
+        /// 
         /// Returns an error if the request fails
         pub async fn ask_ai(&self, request: web::Path<String>) -> actix_web::Result<HttpResponse> {
             let message = request.into_inner();
@@ -81,9 +83,11 @@ pub mod chat {
         }
 
         /// # Errors
+        ///
         /// Returns an error if the request fails
         /// # Panics
-        /// Panics if the no api key is provided or there is no connection
+        /// 
+        ///  if the no api key is provided or there is no connection
         pub async fn perform_conversation(&self, message: String) -> Result<String, Error>{
             let url = "https://api.openai.com/v1/chat/completions";
             let bearer = self.get_bearer_key();

@@ -4,3 +4,5 @@ pub mod moderation;
 pub mod completions;
 pub mod text_to_speech;
 pub mod images;
+pub mod transctiption;
+mod helper;

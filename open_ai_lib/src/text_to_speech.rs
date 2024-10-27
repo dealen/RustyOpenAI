@@ -1,9 +1,10 @@
 pub mod speech {
-    use std::{env, fs::File, io::Write};
+    use std::{fs::File, io::Write};
 
     use chrono::Utc;
     use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
     use serde_json::json;
+    use crate::helper;
 
     pub struct Speech {
         pub open_ai_key: String,
@@ -19,21 +20,17 @@ pub mod speech {
             }
         }
 
-        fn get_file_path(path: &str) -> String {
-            let mut full_path = env::current_dir().unwrap();
-            full_path.push(path);
-            full_path.to_str().unwrap().to_string()
-        }
-
         fn get_bearer_key(&self) -> String {
             format!("Bearer {}", self.open_ai_key)
         }
 
         /// # Panics
+        ///
         /// Panics if the no api key is provided or there is no connection
         /// # Errors
+        ///
         /// Returns an error if the request fails
-        pub async fn get_audio(&self, input: &str, voice: &str) {
+        pub async fn get_audio(&self, input: &str, voice: &str) -> String {
             let client = reqwest::Client::new();
             let mut headers = HeaderMap::new();
 
@@ -60,7 +57,7 @@ pub mod speech {
 
             println!("Audio response received");
 
-            Self::save_file_to_disk(&body);
+            Self::save_file_to_disk(&body)
         }
 
         fn save_file_to_disk(file_content: &[u8]) -> String {
@@ -69,8 +66,7 @@ pub mod speech {
             let mut file = File::create(path).unwrap();
             file.write_all(file_content).unwrap();
 
-            // return path on disk
-            Self::get_file_path(&path_clone)
+            helper::get_file_path(&path_clone)
         }
     }
 }
